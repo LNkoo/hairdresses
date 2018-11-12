@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ client.name }}
+{{ client.surname }}
+{{ client.sex }}
+{% if client.sign_regular_customer %}
+    ТАК
+{% else %}
+    НІ
+{% endif %}
+<a href="{% url 'client-edit' pk=client.pk %}">Редагувати</a>
+</body>
+</html>

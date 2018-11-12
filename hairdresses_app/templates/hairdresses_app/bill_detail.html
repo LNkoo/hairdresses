@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ bill.client.name }}
+{{ bill.client.surname }}
+{{ bill.hairdo.name }}
+{% for additional_service in bill.additional_services.all %}
+    {{ additional_service.name }}
+{% endfor %}
+{{ bill.date }}
+{{ bill.total_sum }}
+<a href="{% url 'bill-edit' pk=bill.pk %}">Редагувати</a>
+</body>
+</html>

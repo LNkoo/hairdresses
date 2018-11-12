@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load staticfiles%}
+    <link rel="stylesheet" href="{% static 'hairdresses_app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'hairdresses_app/css/updated.css' %}">
+    <script src="{% static 'hairdresses_app/js/jquery-3.3.1.min.js' %}"></script>
+</head>
+<body>
+
+<div class="container" style="margin-top: 30px" ng-controller="ServicesCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Рахунки</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Прізвище</th>
+                            <th>Ім’я</th>
+                            <th>Зачіска</th>
+                            <th>Додаткова послуга</th>
+                            <th>Дата</th>
+                            <th>Сума</th>
+                        </tr>
+                        </thead>
+                         <tbody>
+                        {% for bill in bills %}
+                            <a href="{% url 'bill_detail' pk=bill.id %}">
+                                <tr>
+                                <td>{{ bill.id }}</td>
+                                <td>{{ bill.client.name }}</td>
+                                <td>{{ bill.client.surname }}</td>
+                                <td>{{ bill.hairdo.name }}</td>
+                                <td>
+                                {% for additional_service in bill.additional_services.all %}
+                                    {{ additional_service.name }}
+                                    <br>
+                                {% endfor %}
+                                </td>
+                                <td>{{ bill.date }}</td>
+                                <td>{{ bill.total_sum }}</td>
+                            </tr>
+                            </a>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post" action="{% url 'list-of-bills' %}">
+{% csrf_token %}
+    <select name="client_id" id="client">
+        <option value="0" selected>--------------</option>
+        {% for client in clients %}
+            <option value="{{ client.id }}">
+            {{ client }}
+            </option>
+        {% endfor %}
+    </select>
+    <select name="hairdo_id" >
+        <option value="0" selected>--------------</option>
+        {% for prichoska in hirestyles %}
+            <option value="{{ prichoska.id }}">{{ prichoska }}</option>
+        {% endfor %}
+    </select>
+    <select name="additional_services_ids" multiple="multiple">
+        {% for servs in add_servs %}
+            <option value="{{ servs.id }}">{{ servs }}</option>
+        {% endfor %}
+    </select>
+<input type="submit" value="Додати">
+</form>
+
+<style>
+    form {
+        position: absolute;
+        background-color: #E0EEE0;
+        padding-left: 150px;
+
+
+}
+    form select{
+        position: relative;
+        width: 200px;
+        padding-left: 20px ;
+    }
+    form option{
+        width: 150px;
+        position: center;
+
+    }
+    form .input{
+        weight: 200px;
+    }
+</style>
+
+
+</body>
+</html>
+

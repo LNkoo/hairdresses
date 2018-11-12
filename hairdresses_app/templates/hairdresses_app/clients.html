@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'hairdresses_app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'hairdresses_app/css/updated.css' %}">
+    <script src="{% static 'hairdresses_app/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'hairdresses_app/js/clients.js' %}"></script>
+</head>
+<body>
+
+<div class="container" style="margin-top: 30px" ng-controller="ServicesCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Клієнти</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Прізвище</th>
+                            <th>Ім’я</th>
+                            <th>Стать</th>
+                            <th>Постійний клієнт</th>
+                            <th>Видалити</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for client in clients %}
+                            <tr>
+                                <td><a href="{% url 'client-detailed' pk=client.id %}">
+                                    {{ client.id }} </a></td>
+                                <td>{{ client.name }} </td>
+                                <td>{{ client.surname }}</td>
+                                <td>{{ client.get_sex_display }}</td>
+                                <td>{% if client.sign_regular_customer %}
+
+                                    ТАК
+                                {% else %}
+                                    НІ
+                                {% endif %}</td>
+                                <td><a href="{% url 'client-edit' pk=client.id %}" class="delete_button">Видалити</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form method="post" action="{% url 'list-of-clients' %}">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Iм’я">
+    <input type="text" name="surname" placeholder="Прізвище">
+    {{ form.sex }}
+    <label for="reg_client">Постійний клієнт</label>
+    <input id="reg_client" type="checkbox" name="sign_regular_customer">
+    <input type="submit" value="Додати">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ hairdo.name }}
+{{ hairdo.price }}
+{{ hairdo.sex }}
+<a href="{% url 'hairdo-edit' pk=hairdo.pk %}">Редагувати</a>
+</body>
+</html>
